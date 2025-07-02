@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname)));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'meteo.html'));
+    res.sendFile(path.join(__dirname, 'Meteo.html'));
 });
 const ipGeoKey = process.env.IPGEO_API_KEY ;
 
