@@ -20,26 +20,6 @@ app.get('/', (req, res) => {
 });
 const ipGeoKey = process.env.IPGEO_API_KEY ;
 
-// app.get('/location', async (req, res) => {
-//   try {
-//     const response = await fetch(`https://api.ipgeolocation.io/ipgeo?apiKey=${ipGeoKey}`);
-//     const data = await response.json();
-
-//     if (data && data.latitude && data.longitude) {
-//       res.json({
-//         city: data.city,
-//         country: data.country_name,
-//         lat: data.latitude,
-//         lon: data.longitude
-//       });
-//     } else {
-//       res.status(500).json({ error: 'Failed to get location' });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Request failed' });
-//   }
-// });
 app.get('/location', async (req, res) => {
   try {
     const clientIp =
