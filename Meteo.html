@@ -627,7 +627,10 @@
           '/Images/laptop/sunset/5.jpg',
           '/Images/laptop/sunset/6.jpg',
           '/Images/laptop/sunset/7.jpg',
-          '/Images/laptop/sunset/8.jpg'
+          '/Images/laptop/sunset/8.jpg',
+          '/Images/laptop/sunset/9.jpg',
+          '/Images/laptop/sunset/10.jpg'
+
         ],
         night: [
           '/Images/laptop/night/1.jpg',
@@ -637,7 +640,8 @@
           '/Images/laptop/night/5.jpg',
           '/Images/laptop/night/6.jpg',
           '/Images/laptop/night/7.jpg',
-          '/Images/laptop/night/8.jpg'
+          '/Images/laptop/night/8.jpg',
+          '/Images/laptop/night/9.jpg'
         ]
       },
       mobile: {
@@ -679,7 +683,7 @@
     });
  
     const delayPromise = new Promise(resolve => setTimeout(resolve, 1000));
-    // wait to laod background + 1second
+    // wait to laod background + 1 second
     await Promise.all([imageLoadPromise, delayPromise]);
     hideSpinner();
 
@@ -689,59 +693,25 @@
   async function getUserLocationByIP() {
     try {
       const res = await fetch('/location');
-      if (!res.ok) throw new Error('Primary location fetch failed');
-
       const data = await res.json();
-      console.log('Location from server:', data);
+
+      console.log('Location:', data);
 
       return {
         city: data.city,
         lat: data.lat,
         lon: data.lon
       };
-    } catch (err1) {
-      console.warn('Primary location failed, using ipinfo...', err1);
-
-      try {
-        const fallbackRes = await fetch('https://ipinfo.io/json'); 
-        const fallbackData = await fallbackRes.json();
-        const [lat, lon] = fallbackData.loc.split(',');
-
-        console.log('Location from ipinfo:', fallbackData);
-
-        return {
-          city: fallbackData.city,
-          lat,
-          lon
-        };
-      } catch (err2) {
-        console.warn('ipinfo failed, using ipwho.is...', err2);
-
-        try {
-          const res3 = await fetch('https://ipwho.is/');
-          const data3 = await res3.json();
-
-          if (!data3.success) throw new Error('ipwho.is returned failure');
-
-          console.log('Location from ipwho.is:', data3);
-
-          return {
-            city: data3.city,
-            lat: data3.latitude,
-            lon: data3.longitude
-          };
-        } catch (err3) {
-          console.error('All location fetch attempts failed:', err3);
-
-          return {
-            city: 'Unknown',
-            lat: 0,
-            lon: 0
-          };
-        }
-      }
+    } catch (err) {
+      console.error('Failed to get location:', err);
+      return {
+        city: 'Unknown',
+        lat: 0,
+        lon: 0
+      };
     }
   }
+
 
   // Current Location
   async function useCurrentLocation() {
@@ -776,6 +746,7 @@
 
       if (data.length === 0) {
         alert('City not found!');
+        hideSpinner();
         return;
       }
       const lat = data[0].lat;
@@ -786,6 +757,7 @@
       updateForecast(weatherData);
     } catch (err) {
       alert("An error occurred while fetching weather.");
+      hideSpinner();
       console.error(err);
     } 
   }
