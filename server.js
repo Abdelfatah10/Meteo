@@ -22,7 +22,13 @@ const ipGeoKey = process.env.IPGEO_API_KEY ;
 
 
 app.get('/location', async (req, res) => {
-  const clientIp = req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
+  let clientIp = (req.headers['x-forwarded-for']?.split(',')[0] || req.ip)?.trim();
+  const localIps = ['127.0.0.1', '::1', '::ffff:127.0.0.1'];
+  const algerianFallbackIp = '105.235.132.1'; // Alg IP
+
+  if (localIps.includes(clientIp)) {
+    clientIp = algerianFallbackIp;
+  }
 
   try {
     const response = await fetch(
