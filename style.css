@@ -178,14 +178,6 @@
         margin: 15px 0;
         width: 100%;
     }
-    .dev-bio {
-        text-align: center;
-        font-size: 13px;
-        line-height: 1.5;
-        color: #b0b0b0;
-        margin-bottom: 20px;
-        font-style: italic;
-    }
     .dev-links {
         display: flex;
         justify-content: center;
