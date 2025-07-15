@@ -37,60 +37,60 @@
     const imagePaths = {
       laptop: {
         day: [
-          '/Images/laptop/day/1.jpg',
-          '/Images/laptop/day/2.jpg',
-          '/Images/laptop/day/3.jpg',
-          '/Images/laptop/day/4.jpg',
-          '/Images/laptop/day/5.jpg',
-          '/Images/laptop/day/6.jpg'
+          '/Images/laptop/day/1.webp',
+          '/Images/laptop/day/2.webp',
+          '/Images/laptop/day/3.webp',
+          '/Images/laptop/day/4.webp',
+          '/Images/laptop/day/5.webp',
+          '/Images/laptop/day/6.webp'
         ],
         sunset: [
-          '/Images/laptop/sunset/1.jpg',
-          '/Images/laptop/sunset/2.jpg',
-          '/Images/laptop/sunset/3.jpg',
-          '/Images/laptop/sunset/4.jpg',
-          '/Images/laptop/sunset/5.jpg',
-          '/Images/laptop/sunset/6.jpg',
-          '/Images/laptop/sunset/7.jpg',
-          '/Images/laptop/sunset/8.jpg',
-          '/Images/laptop/sunset/9.jpg',
-          '/Images/laptop/sunset/10.jpg'
+          '/Images/laptop/sunset/1.webp',
+          '/Images/laptop/sunset/2.webp',
+          '/Images/laptop/sunset/3.webp',
+          '/Images/laptop/sunset/4.webp',
+          '/Images/laptop/sunset/5.webp',
+          '/Images/laptop/sunset/6.webp',
+          '/Images/laptop/sunset/7.webp',
+          '/Images/laptop/sunset/8.webp',
+          '/Images/laptop/sunset/9.webp',
+          '/Images/laptop/sunset/10.webp'
 
         ],
         night: [
-          '/Images/laptop/night/1.jpg',
-          '/Images/laptop/night/2.jpg',
-          '/Images/laptop/night/3.jpg',
-          '/Images/laptop/night/4.jpg',
-          '/Images/laptop/night/5.jpg',
-          '/Images/laptop/night/6.jpg',
-          '/Images/laptop/night/7.jpg',
-          '/Images/laptop/night/8.jpg',
-          '/Images/laptop/night/9.jpg'
+          '/Images/laptop/night/1.webp',
+          '/Images/laptop/night/2.webp',
+          '/Images/laptop/night/3.webp',
+          '/Images/laptop/night/4.webp',
+          '/Images/laptop/night/5.webp',
+          '/Images/laptop/night/6.webp',
+          '/Images/laptop/night/7.webp',
+          '/Images/laptop/night/8.webp',
+          '/Images/laptop/night/9.webp'
         ]
       },
       mobile: {
         day: [
-          '/Images/mobile/day/1.jpg',
-          '/Images/mobile/day/2.jpg',
-          '/Images/mobile/day/3.jpg',
-          '/Images/mobile/day/4.jpg',
-          '/Images/mobile/day/5.jpg'
+          '/Images/mobile/day/1.webp',
+          '/Images/mobile/day/2.webp',
+          '/Images/mobile/day/3.webp',
+          '/Images/mobile/day/4.webp',
+          '/Images/mobile/day/5.webp'
         ],
         sunset: [
-          '/Images/mobile/sunset/1.jpg',
-          '/Images/mobile/sunset/2.jpg',
-          '/Images/mobile/sunset/3.jpg'
+          '/Images/mobile/sunset/1.webp',
+          '/Images/mobile/sunset/2.webp',
+          '/Images/mobile/sunset/3.webp'
         ],
         night: [
-          '/Images/mobile/night/1.jpg',
-          '/Images/mobile/night/2.jpg',
-          '/Images/mobile/night/3.jpg',
-          '/Images/mobile/night/4.jpg',
-          '/Images/mobile/night/5.jpg',
-          '/Images/mobile/night/6.jpg',
-          '/Images/mobile/night/7.jpg',
-          '/Images/mobile/night/8.jpg'
+          '/Images/mobile/night/1.webp',
+          '/Images/mobile/night/2.webp',
+          '/Images/mobile/night/3.webp',
+          '/Images/mobile/night/4.webp',
+          '/Images/mobile/night/5.webp',
+          '/Images/mobile/night/6.webp',
+          '/Images/mobile/night/7.webp',
+          '/Images/mobile/night/8.webp'
         ]
       }
     };
