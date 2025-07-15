@@ -10,11 +10,20 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "node-fetch": "^3.3.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abdelfatah10/Meteo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Abdelfatah10/Meteo/issues"
+  },
+  "homepage": "https://github.com/Abdelfatah10/Meteo#readme",
+  "description": ""
 }
