@@ -107,7 +107,7 @@
       };
     });
  
-    const delayPromise = new Promise(resolve => setTimeout(resolve, 1000));
+    const delayPromise = new Promise(resolve => setTimeout(resolve, 100));
     // wait to laod background + 1 second
     await Promise.all([imageLoadPromise, delayPromise]);
     hideSpinner();
