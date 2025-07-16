@@ -302,7 +302,7 @@
       const weatherData = await getWeatherData(location.lat, location.lon);
       updateCurrentWeather(weatherData);
       updateForecast(weatherData);
-      showWarningBox();
+      // showWarningBox();
     } catch (error) {
       console.error('Error fetching weather data:', error);
     }
