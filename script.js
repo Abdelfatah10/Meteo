@@ -197,7 +197,8 @@
     const timezoneOffset = data.city.timezone; 
 
     const weather = data.list[0].weather[0];
-    const iconFile = getWeatherIcon(weather.main, weather.icon);
+    const iconFile = getWeatherIcon(weather.main, data.list[0].dt, timezoneOffset);
+
 
     const windSpeed = data.list[0].wind.speed;
     const rain = data.list[0].rain?.['3h'] ?? 0;
@@ -224,8 +225,11 @@
   }
 
   // Weather Icon
-  function getWeatherIcon(main, iconCode) {
-    const isNight = iconCode.includes('n');
+  function getWeatherIcon(main, dt, timezoneOffset) {
+    const utc = new Date(dt * 1000);
+    const localTime = new Date(utc.getTime() + timezoneOffset * 1000);
+    const hour = localTime.getHours();
+    const isNight = hour < 6 || hour >= 18;
     const time = isNight ? 'night' : 'day';
 
     const map = {
@@ -258,15 +262,17 @@
     for (let i = 0; i < data.list.length; i++) {
       const item = data.list[i];
       const weather = item.weather[0];
-      const iconFile = getWeatherIcon(weather.main, weather.icon);
+      
+      const utc = new Date(item.dt * 1000);
+      const localTime = new Date(utc.getTime() + timezoneOffset * 1000);
+      const localHour = localTime.getHours();
 
-      const windSpeed = item.wind.speed;
-      const rain = item.rain?.['3h'] ?? 0;
-      const windKmH = (windSpeed * 3.6).toFixed(1);
+      if (localHour === 11 || localHour === 12 || localHour === 13 ) {
+        const iconFile = getWeatherIcon(weather.main, item.dt, timezoneOffset);
 
-      if (item.dt_txt.includes("12:00:00")) {
-        const utc = new Date(item.dt * 1000);
-        const localTime = new Date(utc.getTime() + timezoneOffset * 1000);
+        const windSpeed = item.wind.speed;
+        const rain = item.rain?.['3h'] ?? 0;
+        const windKmH = (windSpeed * 3.6).toFixed(1);
 
         const dayName = localTime.toLocaleDateString('en-US', { weekday: 'long' });
         const dateStr = localTime.toLocaleDateString('en-GB');
