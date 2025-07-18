@@ -191,26 +191,30 @@
     const res = await fetch(`/getweather?lat=${lat}&lon=${lon}`);
     return await res.json();
   }
+  // Local Time
+  async function getLocalTimeFromServer(timezoneOffset) {
+    const res = await fetch(`/local-now?timezone=${timezoneOffset}`);
+    return await res.json();
+  }
 
   // Update Weather
-  function updateCurrentWeather(data) {
+  async function updateCurrentWeather(data) {
     const timezoneOffset = data.city.timezone; 
 
     const weather = data.list[0].weather[0];
-    const iconFile = getWeatherIcon(weather.main, data.list[0].dt, timezoneOffset);
-
-
     const windSpeed = data.list[0].wind.speed;
     const rain = data.list[0].rain?.['3h'] ?? 0;
     const windKmH = (windSpeed * 3.6).toFixed(1); 
 
-    const nowUTC = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60000);
-    const localTime = new Date(nowUTC.getTime() + timezoneOffset * 1000);
-    const dateStr = localTime.toLocaleDateString('en-GB');
-    const timeStr = localTime.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-    setBackgroundByTimeAndDevice(localTime.getHours());
+    const localData = await getLocalTimeFromServer(timezoneOffset);
+    
+    const dateStr = localData.date;
+    const timeStr = localData.time;
+    
+    const iconFile = getWeatherIcon(weather.main, localData.hour);
+    setBackgroundByTimeAndDevice(localData.hour);
 
-    document.querySelector('.date1').textContent = `${localTime.toLocaleDateString('en-US', { weekday: 'long' })}, ${timeStr}`;
+    document.querySelector('.date1').textContent = `${localData.weekday}, ${timeStr}`;
     document.querySelector('.date2').textContent = dateStr;
     document.querySelector('.temp .value').textContent = `${Math.round(data.list[0].main.temp)}°C`;
     document.querySelector('.temp .city').textContent = isCurrentLocation ? `📍 ${data.city.name}` : data.city.name;
@@ -225,11 +229,8 @@
   }
 
   // Weather Icon
-  function getWeatherIcon(main, dt, timezoneOffset) {
-    const utc = new Date(dt * 1000);
-    const localTime = new Date(utc.getTime() + timezoneOffset * 1000);
-    const hour = localTime.getHours();
-    const isNight = hour < 6 || hour >= 18;
+  function getWeatherIcon(main , hour) {
+    const isNight = hour < 6 || hour >= 19;
     const time = isNight ? 'night' : 'day';
 
     const map = {
@@ -268,7 +269,7 @@
       const localHour = localTime.getHours();
 
       if (localHour === 11 || localHour === 12 || localHour === 13 ) {
-        const iconFile = getWeatherIcon(weather.main, item.dt, timezoneOffset);
+        const iconFile = getWeatherIcon(weather.main, localHour);
 
         const windSpeed = item.wind.speed;
         const rain = item.rain?.['3h'] ?? 0;
