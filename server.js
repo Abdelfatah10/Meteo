@@ -125,6 +125,46 @@ app.get('/getweather', async (req, res) => {
 });
 
 
+app.get('/local-now', (req, res) => {
+  const timezone = parseInt(req.query.timezone); 
+
+  if (isNaN(timezone)) {
+    return res.status(400).send('Invalid timezone offset');
+  }
+
+  const nowUTC = new Date();
+  const localTimestamp = nowUTC.getTime() + timezone * 1000;
+  const local = new Date(localTimestamp);
+
+  const formatterTime = new Intl.DateTimeFormat('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'UTC'
+  });
+
+  const formatterDate = new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    timeZone: 'UTC'
+  });
+
+  const formatterWeekday = new Intl.DateTimeFormat('en-GB', {
+    weekday: 'long',
+    timeZone: 'UTC'
+  });
+
+  res.json({
+    time: formatterTime.format(local),
+    date: formatterDate.format(local),
+    weekday: formatterWeekday.format(local),
+    hour: local.getUTCHours()
+  });
+});
+
+
+
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
