@@ -260,6 +260,26 @@
     let shownDays = 0;
     const timezoneOffset = data.city.timezone;
 
+    const rainPerDay = {};
+    const windPerDay = {};
+
+    for (let i = 0; i < data.list.length; i++) {
+      const item = data.list[i];
+      const utc = new Date(item.dt * 1000);
+      const localTime = new Date(utc.getTime() + timezoneOffset * 1000);
+      const dateKey = localTime.toISOString().split('T')[0];
+
+      const rain = item.rain?.['3h'] ?? 0;
+      rainPerDay[dateKey] = (rainPerDay[dateKey] || 0) + rain;
+
+      const windSpeed = item.wind.speed;
+      if (!windPerDay[dateKey]) {
+        windPerDay[dateKey] = { total: 0, count: 0 };
+      }
+      windPerDay[dateKey].total += windSpeed;
+      windPerDay[dateKey].count += 1;
+    }
+
     for (let i = 0; i < data.list.length; i++) {
       const item = data.list[i];
       const weather = item.weather[0];
@@ -271,9 +291,12 @@
       if (localHour === 11 || localHour === 12 || localHour === 13 ) {
         const iconFile = getWeatherIcon(weather.main, localHour);
 
-        const windSpeed = item.wind.speed;
-        const rain = item.rain?.['3h'] ?? 0;
-        const windKmH = (windSpeed * 3.6).toFixed(1);
+        const dateKey = localTime.toISOString().split('T')[0];
+
+        const rain = rainPerDay[dateKey]?.toFixed(1) ?? '0';
+
+        const windAvg = windPerDay[dateKey]?.total / windPerDay[dateKey]?.count || 0;
+        const windKmH = (windAvg * 3.6).toFixed(1);
 
         const dayName = localTime.toLocaleDateString('en-US', { weekday: 'long' });
         const dateStr = localTime.toLocaleDateString('en-GB');
