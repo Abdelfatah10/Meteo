@@ -166,6 +166,11 @@
     try {
       const res = await fetch(`/search?q=${city}`);
       const data = await res.json();
+      if(data.error) {
+        alert(data.error);
+        hideSpinner();
+        return;
+      }
 
       if (data.length === 0) {
         alert('City not found!');

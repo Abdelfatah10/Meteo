@@ -91,6 +91,9 @@ app.get('/location', async (req, res) => {
 
 app.get('/search', async (req, res) => {
   const city = req.query.q;
+  if (!city || typeof city !== 'string' || city.length > 100) {
+    return res.status(400).json({ error: 'Invalid city name' });
+  }
 
   try {
     const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`, {
