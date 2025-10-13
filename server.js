@@ -15,6 +15,10 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname)));
 
+app.get('/ping', (req, res) => {
+    res.send('pong');
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'Meteo.html'));
 });
