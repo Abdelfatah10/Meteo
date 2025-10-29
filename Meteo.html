@@ -61,8 +61,8 @@
     <div class="forecast">
       <div class="controls">
         <input type="text" id="cityInput" placeholder="Enter city..." />
-        <button onclick="searchCity()">Search</button>
-        <button onclick="useCurrentLocation()" title="Use current location">
+        <button id="searchCity">Search</button>
+        <button id="CurrentLocation" title="Use current location">
           <i class="fas fa-location-crosshairs"></i>
         </button>
         <button class="dev-info-btn" title="Developer Info">
@@ -217,7 +217,7 @@
       We used your IP address to estimate your location. This may not be accurate.<br>
       For precise results, click the <i class="fas fa-location-crosshairs"></i> button to allow GPS access.
     </p>
-    <button onclick="dismissWarning()">Got it</button>
+    <button id="warning">Got it</button>
   </div>
 
 </body>

@@ -9,10 +9,10 @@
       localStorage.setItem('locationWarningShown', 'true');
     }
   }
-  function dismissWarning() {
+  document.getElementById('warning').addEventListener('click', () => {
     const box = document.getElementById('location-warning');
     if (box) box.style.display = 'none';
-  }
+  });
 
   // Spinner
   function showSpinner() {
@@ -137,7 +137,7 @@
 
 
   // Current Location
-  async function useCurrentLocation() {
+  document.getElementById('CurrentLocation').addEventListener('click', async() => {
     showSpinner();
     document.getElementById('cityInput').value = '';
     navigator.geolocation.getCurrentPosition(async (pos) => {
@@ -151,11 +151,11 @@
       alert("Location access denied or unavailable.");
       hideSpinner();
     });
-  }
+  });
 
 
   // Search City
-  async function searchCity() {
+  document.getElementById('searchCity').addEventListener('click', async() => {
     isCurrentLocation = false;
     const city = document.getElementById('cityInput').value.trim();
     document.getElementById('cityInput').value = '';
@@ -188,7 +188,7 @@
       hideSpinner();
       console.error(err);
     } 
-  }
+  });
 
 
   // Weather
