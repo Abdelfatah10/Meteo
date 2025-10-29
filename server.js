@@ -4,6 +4,7 @@ import fetch from 'node-fetch';
 import path, { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import helmet from 'helmet';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors());
+app.use(helmet());
 
 app.use(express.static(path.join(__dirname)));
 
