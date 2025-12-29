@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
@@ -33,8 +32,6 @@ app.use(cors({
 }));
 
 app.use(helmet());
-
-app.use(morgan('combined'));
 
 app.use((req, res, next) => {
   const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
