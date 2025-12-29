@@ -40,7 +40,7 @@ weatherRoutes.get('/local-now', (req, res) => {
 weatherRoutes.get('/search', async (req, res) => {
     try {
         const city = req.query.q;
-        if (!city || typeof city !== 'string' || city.length > 100) {
+        if (!city || typeof city !== 'string' || city.length > 100 || /[^a-zA-Z\s'-]/.test(city)) {
             return res.status(400).json({ error: 'Invalid city name' });
         }
         const results = await searchCity(city);
