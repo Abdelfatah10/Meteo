@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
@@ -31,16 +32,9 @@ app.use(cors({
   methods: ['GET']
 }));
 
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'"], // يمنع scripts من domains أخرى
-      styleSrc: ["'self'", 'https:'],
-      imgSrc: ["'self'", 'data:', 'https:'],
-    },
-  },
-}));
+app.use(helmet());
+
+app.use(morgan('combined'));
 
 app.disable('x-powered-by');
 
