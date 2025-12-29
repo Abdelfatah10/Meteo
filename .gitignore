@@ -1,6 +1,6 @@
-﻿.env
+﻿# Ignore environment variables
+.env
 
 
 # Ignore Node modules
 node_modules/
-
