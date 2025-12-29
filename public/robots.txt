@@ -1,0 +1,8 @@
+# Robots.txt for Meteo Weather Application
+
+# Allow all bots to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow API routes from crawling
+Disallow: /api/
