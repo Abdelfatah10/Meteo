@@ -36,6 +36,13 @@ app.use(helmet());
 
 app.use(morgan('combined'));
 
+app.use((req, res, next) => {
+  const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+  console.log(`Visitor IP: ${ip} - ${req.method} ${req.url}`);
+  next();
+});
+
+
 app.disable('x-powered-by');
 
 app.use(express.static(path.join(__dirname, 'public')));
