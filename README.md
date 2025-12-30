@@ -28,6 +28,7 @@ Check it out here: [Meteo Live Website](https://meteo-7vyv.onrender.com)
 - **HTML5**
 - **CSS3**
 - **JavaScript (ES6)**
+- **Express.js** for backend server
 - **Weather API** (e.g., OpenWeatherMap)
 - **Render.com** for hosting
 
