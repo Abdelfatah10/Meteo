@@ -6,6 +6,8 @@ Welcome to **Meteo**, a sleek and responsive weather forecasting website. It all
 
 Check it out here: [Meteo Live Website](https://meteo-7vyv.onrender.com)
 
+![Demo Screenshot](demo.png)
+
 ## 🧩 Features
 
 - 🌍 Get weather data by **city name** or **device location**
