@@ -4,10 +4,13 @@ import { getLocalNow } from '../utils/timeUtils.js';
 
 const weatherRoutes = Router();
 
-
+// Get weather by client IP
 weatherRoutes.get('/weatherbyip', async (req, res) => {
     try {
         const clientIp = (req.headers['x-forwarded-for']?.split(',')[0] || req.ip)?.trim();
+        if (!clientIp) {
+            return res.status(400).json({ error: 'Unable to determine client IP' });
+        }
         const location = await getLocationFromIp(clientIp);
         if (!location || !location.lat || !location.lon) {
             throw new Error('Invalid location data');
@@ -22,7 +25,7 @@ weatherRoutes.get('/weatherbyip', async (req, res) => {
     }
 });
 
-
+// Get local time based on timezone offset
 weatherRoutes.get('/local-now', (req, res) => {
     try {
         const timezone = req.query.timezone;
@@ -36,7 +39,7 @@ weatherRoutes.get('/local-now', (req, res) => {
     }
 });
 
-
+// Search city and get weather
 weatherRoutes.get('/search', async (req, res) => {
     try {
         const city = req.query.q;
@@ -58,7 +61,7 @@ weatherRoutes.get('/search', async (req, res) => {
     }
 });
 
-
+// Get weather by coordinates
 weatherRoutes.get('/getweather', async (req, res) => {
     try {
         const { lat, lon } = req.query;

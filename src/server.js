@@ -36,14 +36,6 @@ app.use(cors({
     methods: ['GET']
 }));
 
-
-
-// app.use((req, res, next) => {
-//     const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
-//     console.log(`Visitor IP: ${ip} - ${req.method} ${req.url}`);
-//     next();
-// });
-
 // Middleware to parse JSON bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -56,35 +48,35 @@ app.use('/api', limiter, weatherRoutes);
 
 // Serve the main HTML file
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'Meteo.html'));
+    res.sendFile(path.join(__dirname,  '..', 'public', 'Meteo.html'));
 });
+
+
 
 // 404 handler
 app.use((req, res) => {
     res.status(404).send('404 Not Found');
 });
 
+// Global error handler
+app.use((err, req, res, next) => {
+    if (process.env.NODE_ENV === 'development') {
+        console.error(err);
+    }
 
-// // Global error handler
-// app.use((err, req, res, next) => {
-//     if (process.env.NODE_ENV === 'development') {
-//         console.error(err);
-//     }
+    const statusCode =  || 500;
 
-//     const statusCode = err.statusCode || 500;
-
-//     res.status(statusCode).json({
-//         success: false,
-//         message: statusCode === 500
-//             ? 'Internal server error'
-//             : err.message
-//     });
-// });
-
+    res.status(statusCode).json({
+        success: false,
+        message: statusCode === 500
+            ? 'Internal server error'
+            : err.message
+    });
+});
 
 
 
-
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
