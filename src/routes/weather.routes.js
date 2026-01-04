@@ -18,7 +18,7 @@ weatherRoutes.get('/weatherbyip', async (req, res) => {
         if (process.env.NODE_ENV === 'development') {
             console.error('Location fetch error:', error);
         }
-        return res.status(400).json({ error: error.message || 'Failed to fetch location data' });
+        return res.status(500).json({ error: error.message || 'Failed to fetch location data' });
     }
 });
 
@@ -32,7 +32,7 @@ weatherRoutes.get('/local-now', (req, res) => {
         if (process.env.NODE_ENV === 'development') {
             console.error('Local time calculation error:', error);
         }
-        return res.status(400).json({ error: error.message || 'Failed to calculate local time' });
+        return res.status(500).json({ error: error.message || 'Failed to calculate local time' });
     }
 });
 
@@ -74,7 +74,7 @@ weatherRoutes.get('/getweather', async (req, res) => {
         if (process.env.NODE_ENV === 'development') {
             console.error('Weather fetch error:', err);
         }
-        return res.status(400).json({ error: err.message || 'Failed to fetch weather data' });
+        return res.status(500).json({ error: err.message || 'Failed to fetch weather data' });
     }
 });
 
