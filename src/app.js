@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
@@ -17,7 +17,7 @@ const DOMAIN = process.env.DOMAIN;
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100,
-    keyGenerator: (req) => req.ip,
+    keyGenerator: ipKeyGenerator,
     standardHeaders: true,
     legacyHeaders: false,
     message: 'Too many requests, try again later.'
