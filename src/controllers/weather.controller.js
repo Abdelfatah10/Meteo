@@ -69,7 +69,6 @@ export async function searchCityController(req, res) {
                 message: 'Weather service is temporarily unavailable'
             });
         }
-        console.log('Searching city:', city, '->', lat, lon);
         const data = await getWeather(lat, lon);
         if (!data || !data.city || !data.list) {
             return res.status(502).json({
