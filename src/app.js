@@ -17,6 +17,7 @@ const DOMAIN = process.env.DOMAIN;
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100,
+    keyGenerator: (req) => req.ip,
     standardHeaders: true,
     legacyHeaders: false,
     message: 'Too many requests, try again later.'
@@ -26,7 +27,7 @@ const limiter = rateLimit({
 const app = express();
 
 // Trust proxy settings
-app.set('trust proxy', true);
+app.set('trust proxy', 1);
 // Disable the 'X-Powered-By' header for security
 app.disable('x-powered-by');
 // Use Helmet to set various HTTP headers for security
