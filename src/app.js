@@ -47,6 +47,11 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+// Status check endpoint
+app.get('/ping', (req, res) => {
+    res.status(200).send('pong');
+});
+
 // API routes
 app.use('/api', limiter, weatherRoutes);
 
