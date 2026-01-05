@@ -15,14 +15,18 @@ const __dirname = path.dirname(__filename);
 const DOMAIN = process.env.DOMAIN;
 
 const limiter = rateLimit({
-    windowMs: 60 * 1000,
-    max: 30,
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
     message: 'Too many requests, try again later.'
 });
 
 
 const app = express();
 
+// Trust proxy settings
+app.set('trust proxy', true);
 // Disable the 'X-Powered-By' header for security
 app.disable('x-powered-by');
 // Use Helmet to set various HTTP headers for security
