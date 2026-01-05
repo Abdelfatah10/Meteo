@@ -19,24 +19,13 @@ export async function getWeatherData(lat, lon) {
         return null;
     }
 }
-
+// Search City Weather
 export async function searchCityWeather(city) {
     try {
         const res = await fetch(`/api/search?q=${city}`);
         return await res.json();
     } catch (err) {
         console.error('Failed to search city weather:', err);
-        return null;
-    }
-}
-
-// Local Time
-export async function getLocalTimeFromServer(timezoneOffset) {
-    try {
-        const res = await fetch(`/api/local-now?timezone=${timezoneOffset}`);
-        return await res.json();
-    } catch (err) {
-        console.error('Failed to get local time:', err);
         return null;
     }
 }

@@ -1,31 +1,27 @@
 
 import { setBackgroundByTimeAndDevice } from "./background.js";
-import { getLocalTimeFromServer } from "./api.js";
 import { getIsCurrentLocation } from "./uiHelpers.js";
 
 
 
 // Update Weather
 export async function updateCurrentWeather(data) {
-    const timezoneOffset = data.city.timezone; 
 
-    const weather = data.list[0].weather[0];
-    const windSpeed = data.list[0].wind.speed;
-    const rain = data.list[0].rain?.['3h'] ?? 0;
+    const weather = data.data.list[0].weather[0];
+    const windSpeed = data.data.list[0].wind.speed;
+    const rain = data.data.list[0].rain?.['3h'] ?? 0;
     const windKmH = (windSpeed * 3.6).toFixed(1); 
-
-    const localData = await getLocalTimeFromServer(timezoneOffset);
     
-    const dateStr = localData.date;
-    const timeStr = localData.time;
+    const dateStr = data.localTime.date;
+    const timeStr = data.localTime.time;
     
-    const iconFile = getWeatherIcon(weather.main, localData.hour);
-    setBackgroundByTimeAndDevice(localData.hour);
+    const iconFile = getWeatherIcon(weather.main, data.localTime.hour);
+    setBackgroundByTimeAndDevice(data.localTime.hour);
 
-    document.querySelector('.date1').textContent = `${localData.weekday}, ${timeStr}`;
+    document.querySelector('.date1').textContent = `${data.localTime.weekday}, ${timeStr}`;
     document.querySelector('.date2').textContent = dateStr;
-    document.querySelector('.temp .value').textContent = `${Math.round(data.list[0].main.temp)}°C`;
-    document.querySelector('.temp .city').textContent = getIsCurrentLocation() ? `📍 ${data.city.name}` : data.city.name;
+    document.querySelector('.temp .value').textContent = `${Math.round(data.data.list[0].main.temp)}°C`;
+    document.querySelector('.temp .city').textContent = getIsCurrentLocation() ? `📍 ${data.data.city.name}` : data.data.city.name;
     document.getElementById('weather-icon').src = `Images/Icons/${iconFile}`;
 
     document.getElementById('water-icon').src = '/Images/Icons/water.svg';
@@ -41,13 +37,13 @@ export async function updateCurrentWeather(data) {
 export async function updateForecast(data) {
     const dayElements = document.querySelectorAll('.day');
     let shownDays = 0;
-    const timezoneOffset = data.city.timezone;
+    const timezoneOffset = data.data.city.timezone;
 
     const rainPerDay = {};
     const windPerDay = {};
 
-    for (let i = 0; i < data.list.length; i++) {
-      const item = data.list[i];
+    for (let i = 0; i < data.data.list.length; i++) {
+      const item = data.data.list[i];
       const utc = new Date(item.dt * 1000);
       const localTime = new Date(utc.getTime() + timezoneOffset * 1000);
       const dateKey = localTime.toISOString().split('T')[0];
@@ -63,8 +59,8 @@ export async function updateForecast(data) {
       windPerDay[dateKey].count += 1;
     }
 
-    for (let i = 0; i < data.list.length; i++) {
-      const item = data.list[i];
+    for (let i = 0; i < data.data.list.length; i++) {
+      const item = data.data.list[i];
       const weather = item.weather[0];
       
       const utc = new Date(item.dt * 1000);

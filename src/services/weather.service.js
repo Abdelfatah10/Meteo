@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
+import AppError from '../utils/AppError.js';
 
 dotenv.config();
 
@@ -11,18 +12,23 @@ const FallbackIp = process.env.FALLBACK_IP;
  * Fetch location data from IP using ipgeolocation API
  */
 export const fetchFromIpGeoLocation = async (clientIp) => {
+
     const apiUrl = `https://api.ipgeolocation.io/ipgeo?apiKey=${ipGeoKey}&ip=${clientIp}`;
+
     const response = await fetch(apiUrl);
+    if (!response.ok) {
+        throw new AppError('Weather service is temporarily unavailable', 502);
+    }
+
     const data = await response.json();
-    if (data && data.latitude && data.longitude && data.city && data.country_name) {
+    if (data && data.latitude && data.longitude && data.city) {
         return {
             city: data.city,
-            country: data.country_name,
             lat: data.latitude,
             lon: data.longitude
         };
     } else {
-        throw new Error('ipgeolocation returned incomplete data');
+        throw new AppError('Weather service is temporarily unavailable', 502);
     }
 };
 
@@ -30,16 +36,23 @@ export const fetchFromIpGeoLocation = async (clientIp) => {
  * Fetch location data from IP using ipinfo API
  */
 export const fetchFromIpInfo = async (clientIp) => {
+
     const apiUrl = `https://ipinfo.io/${clientIp}/json`;
+
     const response = await fetch(apiUrl);
+    if (!response.ok) {
+        throw new AppError('Weather service is temporarily unavailable', 502);
+    }
+
     const data = await response.json();
     const [lat, lon] = data.loc.split(',');
 
-    if (!lat || !lon) throw new Error('ipinfo returned invalid loc');
+    if (!lat || !lon || !data.city) {
+        throw new AppError('Weather service is temporarily unavailable', 502);
+    }
 
     return {
         city: data.city,
-        country: data.country,
         lat,
         lon
     };
@@ -49,18 +62,21 @@ export const fetchFromIpInfo = async (clientIp) => {
  * Fetch location data from IP using ipwho.is API
  */
 export const fetchFromIpWho = async (clientIp) => {
-    const apiUrl = `https://ipwho.is/${clientIp}`;
-    const response = await fetch(apiUrl);
-    const data = await response.json();
 
-    if (!data.success) throw new Error('ipwho.is failed');
-    if (!data.city || !data.country || !data.latitude || !data.longitude) {
-        throw new Error('ipwho.is returned incomplete data');
+    const apiUrl = `https://ipwho.is/${clientIp}`;
+
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+        throw new AppError('Weather service is temporarily unavailable', 502);
+    }
+
+    const data = await response.json();
+    if (!data.success || !data.latitude || !data.longitude || !data.city) {
+        throw new AppError('Weather service is temporarily unavailable', 502);
     }
 
     return {
         city: data.city,
-        country: data.country,
         lat: data.latitude,
         lon: data.longitude
     };
@@ -70,9 +86,10 @@ export const fetchFromIpWho = async (clientIp) => {
  * Get location from client IP with fallback to multiple APIs
  */
 export const getLocationFromIp = async (clientIp) => {
+
     const localIps = ['127.0.0.1', '::1', '::ffff:127.0.0.1'];
 
-    if (localIps.includes(clientIp)) {
+    if (localIps.includes(clientIp) || !clientIp) {
         clientIp = FallbackIp;
     }
 
@@ -96,7 +113,7 @@ export const getLocationFromIp = async (clientIp) => {
                 if (process.env.NODE_ENV === 'development') {
                     console.warn('ipwho.is failed:', error3);
                 }
-                throw new Error('All location services failed');
+                throw new AppError('Weather service is temporarily unavailable', 502);
             }
         }
     }
@@ -115,10 +132,9 @@ export const searchCity = async (city) => {
         }
     });
     if (!response.ok) {
-        throw new Error('Failed to search city');
+        throw new AppError('Weather service is temporarily unavailable', 502);
     }
-    const data = await response.json();
-    return data;
+    return await response.json(); 
 };
 
 /**
@@ -130,8 +146,7 @@ export const getWeather = async (lat, lon) => {
 
     const response = await fetch(apiUrl);
     if (!response.ok) {
-        throw new Error('Failed to fetch weather data');
+        throw new AppError('Weather service is temporarily unavailable', 502);
     }
-    const data = await response.json();
-    return data;
+    return await response.json();  
 };

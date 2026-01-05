@@ -1,33 +1,37 @@
+import AppError from "./AppError.js";
+
+
 /**
  * Get local time and date information based on timezone offset
  */
 export const getLocalNow = (timezone) => {
-    const timezoneOffset = parseInt(timezone);
+    const timezoneOffset = Number(timezone);
 
-    if (isNaN(timezoneOffset)) {
-        throw new Error('Invalid timezone offset');
+    if (Number.isNaN(timezoneOffset)) {
+        throw new AppError('Weather service is temporarily unavailable', 502);
     }
 
     const nowUTC = new Date();
-    const local = new Date(nowUTC.getTime() + timezoneOffset * 1000);
+    const local = new Date(nowUTC.getTime() + timezoneOffset * 1000)
+    const baseOptions = { timeZone: 'UTC' };
 
     const formatterTime = new Intl.DateTimeFormat('en-GB', {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
-        timeZone: 'UTC'
+        ...baseOptions
     });
 
     const formatterDate = new Intl.DateTimeFormat('en-GB', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
-        timeZone: 'UTC'
+        ...baseOptions
     });
 
     const formatterWeekday = new Intl.DateTimeFormat('en-GB', {
         weekday: 'long',
-        timeZone: 'UTC'
+        ...baseOptions
     });
 
     return {

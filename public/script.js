@@ -17,8 +17,8 @@ document.getElementById('CurrentLocation').addEventListener('click', async() => 
         const lat = pos.coords.latitude;
         const lon = pos.coords.longitude;
         const weatherData = await getWeatherData(lat, lon);
-        if (!weatherData || weatherData.error) {
-            alert(weatherData.error);
+        if (!weatherData || !weatherData.success) {
+            alert(weatherData.message || 'Failed to get weather for current location');
             hideSpinner();
             return;
         }
@@ -42,8 +42,8 @@ document.getElementById('searchCity').addEventListener('click', async() => {
     showSpinner(); 
     try {
         const weatherData = await searchCityWeather(city);
-        if (!weatherData || weatherData.error) {
-            alert(weatherData.error);
+        if (!weatherData || !weatherData.success) {
+            alert(weatherData.message || 'Failed to get weather for the searched city');
             hideSpinner();
             return;
         }
@@ -64,11 +64,18 @@ async function init() {
     try {
         setIsCurrentLocation(false);
         const weatherData = await getWeatherByIP();
+        if (!weatherData || !weatherData.success) {
+            alert(weatherData.message || 'Failed to get weather by IP');
+            hideSpinner();
+            return;
+        }
         updateCurrentWeather(weatherData);
         updateForecast(weatherData);
         showWarningBox();
     } catch (error) {
         console.error('Error fetching weather data:', error);
+        alert('An error occurred while fetching weather data.');
+        hideSpinner();
     }
 }
 
