@@ -49,6 +49,7 @@ export async function getWeatherByIpController(req, res) {
 export async function searchCityController(req, res) {
     try {
         const city = req.query.q;
+        console.log('Searching city:', city);
         if (!city || typeof city !== 'string' || city.length > 100 || /[^a-zA-Z\s'-]/.test(city)) {
             return res.status(400).json({
                 success: false,
