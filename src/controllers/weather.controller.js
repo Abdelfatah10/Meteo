@@ -49,7 +49,6 @@ export async function getWeatherByIpController(req, res) {
 export async function searchCityController(req, res) {
     try {
         const city = req.query.q;
-        console.log('Searching city:', city);
         if (!city || typeof city !== 'string' || city.length > 100 || /[^a-zA-Z\s'-]/.test(city)) {
             return res.status(400).json({
                 success: false,
@@ -64,7 +63,6 @@ export async function searchCityController(req, res) {
             });
         }
         const { lat, lon } = results[0];
-        console.log('Found city coordinates:', lat, lon);
         if (!lat || !lon || isNaN(Number(lat)) || isNaN(Number(lon)) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
             return res.status(502).json({
                 success: false,
@@ -72,7 +70,6 @@ export async function searchCityController(req, res) {
             });
         }
         const data = await getWeather(lat, lon);
-        console.log('Fetched weather data for city:', data);
         if (!data || !data.city || !data.list) {
             return res.status(502).json({
                 success: false,
@@ -92,13 +89,13 @@ export async function searchCityController(req, res) {
             localTime
         });
     } catch (err) {
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === 'development') {
             console.error('Weather fetch error:', err);
         }
         const status = err.statusCode || 500;
         return res.status(status).json({
             success: false,
-            message: 'Weather service is temporarily '
+            message: 'Weather service is temporarily unavailable'
         });
     }
 }

@@ -27,7 +27,7 @@ const limiter = rateLimit({
 const app = express();
 
 // Trust proxy settings
-// app.set('trust proxy', 1);
+app.set('trust proxy', 1);
 // Disable the 'X-Powered-By' header for security
 app.disable('x-powered-by');
 // Use Helmet to set various HTTP headers for security
@@ -53,7 +53,7 @@ app.get('/ping', (req, res) => {
 });
 
 // API routes
-app.use('/api', weatherRoutes);
+app.use('/api', limiter, weatherRoutes);
 
 
 
