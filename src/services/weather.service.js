@@ -123,6 +123,7 @@ export const getLocationFromIp = async (clientIp) => {
  * Search for city coordinates using OpenStreetMap Nominatim API
  */
 export const searchCity = async (city) => {
+    console.log('Searching city in searchCity function:', city);
 
     const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`;
 
@@ -131,6 +132,7 @@ export const searchCity = async (city) => {
             'User-Agent': 'Meteo/1.0 (email@gmail.com)'
         }
     });
+    console.log('Nominatim response status:', response.status);
     if (!response.ok) {
         throw new AppError('Weather service is temporarily unavailable', 502);
     }
