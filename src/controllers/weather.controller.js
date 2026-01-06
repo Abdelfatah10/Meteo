@@ -64,6 +64,7 @@ export async function searchCityController(req, res) {
             });
         }
         const { lat, lon } = results[0];
+        console.log('Found city coordinates:', lat, lon);
         if (!lat || !lon || isNaN(Number(lat)) || isNaN(Number(lon)) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
             return res.status(502).json({
                 success: false,
@@ -71,6 +72,7 @@ export async function searchCityController(req, res) {
             });
         }
         const data = await getWeather(lat, lon);
+        console.log('Fetched weather data for city:', data);
         if (!data || !data.city || !data.list) {
             return res.status(502).json({
                 success: false,
