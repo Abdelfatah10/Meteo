@@ -134,7 +134,7 @@ export const searchCity = async (city) => {
     });
     console.log('Nominatim response status:', response.status);
     if (!response.ok) {
-        throw new AppError('Weather service is temporarily ', 502);
+        throw new AppError('Weather service is temporarily unavailable', 502);
     }
     return await response.json(); 
 };

@@ -92,13 +92,13 @@ export async function searchCityController(req, res) {
             localTime
         });
     } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.NODE_ENV === 'production') {
             console.error('Weather fetch error:', err);
         }
         const status = err.statusCode || 500;
         return res.status(status).json({
             success: false,
-            message: 'Weather service is temporarily unavailable'
+            message: 'Weather service is temporarily '
         });
     }
 }
