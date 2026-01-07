@@ -123,18 +123,31 @@ export const getLocationFromIp = async (clientIp) => {
  * Search for city coordinates using OpenStreetMap Nominatim API
  */
 export const searchCity = async (city) => {
+    try {
+        const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`;
 
-    const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`;
-
-    const response = await fetch(apiUrl, {
-        headers: {
-            'User-Agent': 'Meteo/1.0 (email@gmail.com)'
+        const response = await fetch(apiUrl, {
+            headers: {
+                'User-Agent': 'Meteo/1.0 (email@gmail.com)'
+            }
+        });
+        if (!response.ok) {
+            throw new AppError('Weather service is temporarily unavailable', 502);
         }
-    });
-    if (!response.ok) {
-        throw new AppError('Weather service is temporarily unavailable', 502);
+        return await response.json();
+    } catch (err) {
+        try {
+            const apiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)}&limit=1&appid=${WEATHER_API_KEY}`;
+
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new AppError('Weather service is temporarily unavailable', 502);
+            }
+            return await response.json();
+        } catch (error) {
+            throw new AppError('Weather service is temporarily unavailable', 502);
+        }
     }
-    return await response.json(); 
 };
 
 /**
