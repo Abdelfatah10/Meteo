@@ -17,7 +17,7 @@ Check it out here: [Meteo Live Website](https://meteo-7vyv.onrender.com)
 ![Desktop View](screenshots/desktop.png)
 
 ### Mobile View
-![Mobile View](screenshots/mobile.png)
+![Mobile View](screenshots/mobile.jpg)
 
 
 ## 🧩 Features
